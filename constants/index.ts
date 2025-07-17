@@ -7,7 +7,16 @@ import {
   RxLinkedinLogo,
 } from "react-icons/rx";
 
-export const SKILL_DATA = [
+// ✅ Step 1: Define a reusable type for skills
+export type Skill = {
+  skill_name: string;
+  image: string;
+  width: number;
+  height: number;
+};
+
+// ✅ Step 2: Type all skill arrays
+export const SKILL_DATA: Skill[] = [
   {
     skill_name: "HTML",
     image: "html.png",
@@ -44,7 +53,6 @@ export const SKILL_DATA = [
     width: 80,
     height: 80,
   },
-
   {
     skill_name: "TypeScript",
     image: "ts.png",
@@ -81,27 +89,9 @@ export const SKILL_DATA = [
     width: 40,
     height: 40,
   },
-] as const;
+];
 
-export const SOCIALS = [
-  {
-    name: "Instagram",
-    icon: RxInstagramLogo,
-    link: "https://instagram.com/vedanshsofficial/",
-  },
-  {
-    name: "Facebook",
-    icon: FaFacebook,
-    link: "https://www.linkedin.com/in/vedansh-ji/",
-  },
-  {
-    name: "Twitter",
-    icon: RxTwitterLogo,
-    link: "https://x.com/Vedanshsriji",
-  },
-] as const;
-
-export const FRONTEND_SKILL = [
+export const FRONTEND_SKILL: Skill[] = [
   {
     skill_name: "HTML",
     image: "html.png",
@@ -126,23 +116,21 @@ export const FRONTEND_SKILL = [
     width: 80,
     height: 80,
   },
-
   {
     skill_name: "React",
     image: "react.png",
     width: 80,
     height: 80,
   },
-
   {
     skill_name: "Next.js 14",
     image: "next.png",
     width: 80,
     height: 80,
   },
-] as const;
+];
 
-export const BACKEND_SKILL = [
+export const BACKEND_SKILL: Skill[] = [
   {
     skill_name: "Node.js",
     image: "node.png",
@@ -161,28 +149,43 @@ export const BACKEND_SKILL = [
     width: 40,
     height: 40,
   },
+];
+
+// ✅ These were causing the TypeScript error – now they’re typed properly
+export const FULLSTACK_SKILL: Skill[] = [];
+export const OTHER_SKILL: Skill[] = [];
+
+export const SOCIALS = [
+  {
+    name: "Instagram",
+    icon: RxInstagramLogo,
+    link: "https://instagram.com/vedanshsofficial/",
+  },
+  {
+    name: "Facebook",
+    icon: FaFacebook,
+    link: "https://www.linkedin.com/in/vedansh-ji/",
+  },
+  {
+    name: "Twitter",
+    icon: RxTwitterLogo,
+    link: "https://x.com/Vedanshsriji",
+  },
 ] as const;
-
-export const FULLSTACK_SKILL = [] as const;
-
-export const OTHER_SKILL = [] as const;
 
 export const PROJECTS = [
   {
     title: "Drophome",
-
     image: "/projects/projects-1.webp.webp",
     link: "https://github.com/vedanshji/drophome",
   },
   {
     title: "Legal Company",
-
     image: "/projects/projects-2.webp.webp",
     link: "https://github.com/vedanshji/Vedansh-DPro",
   },
   {
     title: "A-Education",
-
     image: "/projects/projects-3.webp.webp",
     link: "https://github.com/vedanshji/A-Education",
   },
