@@ -1,3 +1,5 @@
+// components/main/skills.tsx
+
 import { SkillDataProvider } from "@/components/sub/skill-data-provider";
 import { SkillText } from "@/components/sub/skill-text";
 
@@ -9,22 +11,7 @@ import {
   SKILL_DATA,
 } from "@/constants";
 
-// Define the Skill type with all needed properties
-type Skill = {
-  skill_name: string;
-  image: string;
-  width: number;
-  height: number;
-};
-
 export const Skills = () => {
-  // Cast imported skill arrays to Skill[] to fix the 'never' type error
-  const skillData = SKILL_DATA as Skill[];
-  const frontendSkills = FRONTEND_SKILL as Skill[];
-  const backendSkills = BACKEND_SKILL as Skill[];
-  const fullstackSkills = FULLSTACK_SKILL as Skill[];
-  const otherSkills = OTHER_SKILL as Skill[];
-
   return (
     <section
       id="skills"
@@ -34,7 +21,7 @@ export const Skills = () => {
       <SkillText />
 
       <div className="flex flex-row justify-around flex-wrap mt-4 gap-5 items-center">
-        {skillData.map((skill, i) => (
+        {SKILL_DATA.map((skill, i) => (
           <SkillDataProvider
             key={skill.skill_name}
             src={skill.image}
@@ -47,7 +34,7 @@ export const Skills = () => {
       </div>
 
       <div className="flex flex-row justify-around flex-wrap mt-4 gap-5 items-center">
-        {frontendSkills.map((skill, i) => (
+        {FRONTEND_SKILL.map((skill, i) => (
           <SkillDataProvider
             key={skill.skill_name}
             src={skill.image}
@@ -60,7 +47,7 @@ export const Skills = () => {
       </div>
 
       <div className="flex flex-row justify-around flex-wrap mt-4 gap-5 items-center">
-        {backendSkills.map((skill, i) => (
+        {BACKEND_SKILL.map((skill, i) => (
           <SkillDataProvider
             key={skill.skill_name}
             src={skill.image}
@@ -73,7 +60,7 @@ export const Skills = () => {
       </div>
 
       <div className="flex flex-row justify-around flex-wrap mt-4 gap-5 items-center">
-        {fullstackSkills.map((skill, i) => (
+        {FULLSTACK_SKILL.map((skill, i) => (
           <SkillDataProvider
             key={skill.skill_name}
             src={skill.image}
@@ -86,7 +73,7 @@ export const Skills = () => {
       </div>
 
       <div className="flex flex-row justify-around flex-wrap mt-4 gap-5 items-center">
-        {otherSkills.map((skill, i) => (
+        {OTHER_SKILL.map((skill, i) => (
           <SkillDataProvider
             key={skill.skill_name}
             src={skill.image}
