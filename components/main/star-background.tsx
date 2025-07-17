@@ -1,20 +1,22 @@
 "use client";
 
 import React, { forwardRef, useState, useRef } from "react";
-import { Points, PointMaterial } from "@react-three/drei";
-import { Canvas, useFrame, type PointsProps } from "@react-three/fiber";
+import { PointMaterial } from "@react-three/drei";
+import { Canvas, useFrame, Points } from "@react-three/fiber";
 import * as random from "maath/random";
 import * as THREE from "three";
 
 // Define prop types, omitting "ref" because forwardRef handles it separately
-type StarBackgroundProps = Omit<PointsProps, "ref">;
+type StarBackgroundProps = JSX.IntrinsicElements["points"];
 
-const StarBackground = forwardRef<typeof Points, StarBackgroundProps>((props, ref) => {
+const StarBackground = forwardRef<THREE.Points, StarBackgroundProps>((props, ref) => {
   // Internal ref to access Points
   const internalRef = useRef<THREE.Points>(null);
 
   // Positions of stars inside a sphere
-  const [sphere] = useState(() => random.inSphere(new Float32Array(5000), { radius: 1.2 }));
+  const [sphere] = useState(() =>
+    random.inSphere(new Float32Array(5000), { radius: 1.2 })
+  );
 
   // Rotate stars every frame
   useFrame((_state, delta) => {
@@ -29,13 +31,19 @@ const StarBackground = forwardRef<typeof Points, StarBackgroundProps>((props, re
 
   return (
     <group rotation={[0, 0, Math.PI / 4]}>
-      <Points
+      <points
         ref={internalRef}
-        stride={3}
-        positions={sphere}
-        frustumCulled
+        args={[undefined, undefined]}
         {...props}
       >
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            count={sphere.length / 3}
+            array={sphere}
+            itemSize={3}
+          />
+        </bufferGeometry>
         <PointMaterial
           transparent
           color="#fff"
@@ -43,7 +51,7 @@ const StarBackground = forwardRef<typeof Points, StarBackgroundProps>((props, re
           sizeAttenuation
           depthWrite={false}
         />
-      </Points>
+      </points>
     </group>
   );
 });
