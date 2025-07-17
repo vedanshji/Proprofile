@@ -2,23 +2,23 @@
 
 import React, { forwardRef, useState, useRef } from "react";
 import { PointMaterial } from "@react-three/drei";
-import { Canvas, useFrame } from "@react-three/fiber"; // ✅ Removed Points from import
+import { Canvas, useFrame } from "@react-three/fiber";
 import * as random from "maath/random";
-import * as THREE from "three";
+import { Points } from "three"; // ✅ Correct import for typing
 
-// Define prop types, omitting "ref" because forwardRef handles it separately
+// Define prop types for the component
 type StarBackgroundProps = JSX.IntrinsicElements["points"];
 
-const StarBackground = forwardRef<THREE.Points, StarBackgroundProps>((props, ref) => {
-  // Internal ref to access Points
-  const internalRef = useRef<THREE.Points>(null);
+const StarBackground = forwardRef<Points, StarBackgroundProps>((props, ref) => {
+  // Ref to the Points mesh
+  const internalRef = useRef<Points>(null);
 
-  // Positions of stars inside a sphere
+  // Generate star positions inside a sphere
   const [sphere] = useState(() =>
     random.inSphere(new Float32Array(5000), { radius: 1.2 })
   );
 
-  // Rotate stars every frame
+  // Animate rotation
   useFrame((_state, delta) => {
     if (internalRef.current) {
       internalRef.current.rotation.x -= delta / 10;
@@ -26,7 +26,7 @@ const StarBackground = forwardRef<THREE.Points, StarBackgroundProps>((props, ref
     }
   });
 
-  // Forward the ref to the Points component
+  // Forward the ref
   React.useImperativeHandle(ref, () => internalRef.current!);
 
   return (
@@ -46,7 +46,7 @@ const StarBackground = forwardRef<THREE.Points, StarBackgroundProps>((props, ref
         </bufferGeometry>
         <PointMaterial
           transparent
-          color="#fff"
+          color="#ffffff"
           size={0.002}
           sizeAttenuation
           depthWrite={false}
