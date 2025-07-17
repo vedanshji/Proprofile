@@ -9,7 +9,7 @@ import * as THREE from "three";
 // Define prop types, omitting "ref" because forwardRef handles it separately
 type StarBackgroundProps = Omit<PointsProps, "ref">;
 
-const StarBackground = forwardRef<THREE.Points, StarBackgroundProps>((props, ref) => {
+const StarBackground = forwardRef<typeof Points, StarBackgroundProps>((props, ref) => {
   // Internal ref to access Points
   const internalRef = useRef<THREE.Points>(null);
 
