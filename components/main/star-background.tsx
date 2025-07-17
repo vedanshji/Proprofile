@@ -1,35 +1,38 @@
 "use client";
 
+import React, { forwardRef, useState, useRef } from "react";
 import { Points, PointMaterial } from "@react-three/drei";
-import { Canvas, type PointsProps, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, type PointsProps } from "@react-three/fiber";
 import * as random from "maath/random";
-import { useState, useRef, Suspense } from "react";
+import * as THREE from "three";
 
-// Remove this import to fix the duplicate declaration error
-// import { Points } from "three";
+// Define prop types, omitting "ref" because forwardRef handles it separately
+type StarBackgroundProps = Omit<PointsProps, "ref">;
 
-// Use the Points type from @react-three/drei for the ref
-type PointsType = typeof Points;
+const StarBackground = forwardRef<THREE.Points, StarBackgroundProps>((props, ref) => {
+  // Internal ref to access Points
+  const internalRef = useRef<THREE.Points>(null);
 
-export const StarBackground = (props: PointsProps) => {
-  const ref = useRef<InstanceType<typeof Points> | null>(null); // Correct typing for ref
-  const [sphere] = useState(() =>
-    random.inSphere(new Float32Array(5000), { radius: 1.2 })
-  );
+  // Positions of stars inside a sphere
+  const [sphere] = useState(() => random.inSphere(new Float32Array(5000), { radius: 1.2 }));
 
+  // Rotate stars every frame
   useFrame((_state, delta) => {
-    if (ref.current) {
-      ref.current.rotation.x -= delta / 10;
-      ref.current.rotation.y -= delta / 15;
+    if (internalRef.current) {
+      internalRef.current.rotation.x -= delta / 10;
+      internalRef.current.rotation.y -= delta / 15;
     }
   });
+
+  // Forward the ref to the Points component
+  React.useImperativeHandle(ref, () => internalRef.current!);
 
   return (
     <group rotation={[0, 0, Math.PI / 4]}>
       <Points
-        ref={ref}
+        ref={internalRef}
         stride={3}
-        positions={new Float32Array(sphere)}
+        positions={sphere}
         frustumCulled
         {...props}
       >
@@ -43,14 +46,16 @@ export const StarBackground = (props: PointsProps) => {
       </Points>
     </group>
   );
-};
+});
 
 export const StarsCanvas = () => (
   <div className="w-full h-auto fixed inset-0 -z-10">
     <Canvas camera={{ position: [0, 0, 1] }}>
-      <Suspense fallback={null}>
+      <React.Suspense fallback={null}>
         <StarBackground />
-      </Suspense>
+      </React.Suspense>
     </Canvas>
   </div>
 );
+
+export default StarBackground;
