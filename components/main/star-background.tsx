@@ -2,7 +2,7 @@
 
 import React, { forwardRef, useState, useRef } from "react";
 import { PointMaterial } from "@react-three/drei";
-import { Canvas, useFrame, Points } from "@react-three/fiber";
+import { Canvas, useFrame } from "@react-three/fiber"; // ✅ Removed Points from import
 import * as random from "maath/random";
 import * as THREE from "three";
 
