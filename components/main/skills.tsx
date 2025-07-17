@@ -11,6 +11,10 @@ import {
   SKILL_DATA,
 } from "@/constants";
 
+type Skill = {
+  skill_name: string;
+};
+
 export const Skills = () => {
   return (
     <section
